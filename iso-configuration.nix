@@ -1,6 +1,14 @@
 { config, pkgs, lib, modulesPath, ... }:
 
 {
+  # Allow proprietary packages (needed for most Wi-Fi firmware)
+  nixpkgs.config.allowUnfree = true;
+
+  # Include proprietary firmware for Wi-Fi, Bluetooth, etc.
+  hardware.enableRedistributableFirmware = true;
+
+  # If uncommented: use nomodeset to boot cleanly on NVIDIA hardware.
+  # boot.kernelParams = [ "nomodeset" ];
 
   # New default from 26.11 onwards.
   boot.zfs.forceImportRoot = false;
@@ -11,7 +19,10 @@
   networking.wireless.enable = lib.mkForce false;
 
   # Enable NetworkManager.
-  networking.networkmanager.enable = true;
+  networking.networkmanager = {
+    enable = true;
+    wifi.backend = "iwd";
+  };
 
   # Enable the OpenSSH daemon.
   services.openssh.enable = true;
