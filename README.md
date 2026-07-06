@@ -43,6 +43,11 @@ sudo dd if=result/iso/*.iso of=/dev/sdX bs=4M status=progress oflag=sync
 sync
 ```
 
+Safely eject the USB device:
+```sh
+sudo eject /dev/sdX
+```
+
 ## After booting the ISO
 ### Connect to wifi
 Check NetworkManager
